@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+import sys
+import os
+
+homedir = os.environ.get('HOME', '/tmp')
+blogdir = os.path.join(homedir, '.blog')
+
+if not os.path.isdir(blogdir):
+	os.mkdir(blogdir)
+
+if len(sys.argv) > 1:
+	os.execl('/usr/bin/vim', 'vim', os.path.join(blogdir, sys.argv[1]))
+else:
+	os.execl('/usr/bin/vim', 'vim', blogdir)
