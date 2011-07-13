@@ -16,33 +16,61 @@ header {
 	height: 100%;
 }
 section#allcontent {
-	width: 860px;
+	width: 650px;
 	margin-left: 300px;
+	margin-bottom: 80px;
 	min-height: 1600px;
 	background-color: white;
 }
 article {
-	width: 656px;
+	width: 650px;
 	padding: 18px 32px;
+	position: relative;
 }
 article h2 {
-	font-size: 1.5em;
+	font-size: 1.75em;
 	color: black;
 	padding: 0px 18px;
 	width: 500px;
 	margin: 18px 8px;
 }
+article time {
+	position: absolute;
+	right: 20px;
+	top: 30px;
+	background-color: #efefef;
+	padding: 3px 12px;
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
 article p {
 	padding: 12px 24px;
 	letter-spacing: 0.08em;
 	color: #222;
+	line-height: 1.4em;
+}
+article p img {
+	width: 500px;
+	margin: 0 auto;
+	display: block;
+}
+article a {
+	color: #111;
+}
+article a:hover {
+	color: black;
+}
+strong {
+	font-weight: 900;
 }
 footer {
-	position: absolute;
-	bottom: 0px;
+	width: 650px;
+	margin-left: 300px;
 }
 footer section {
-	width: 820px;
 	text-align: right;
 	margin: 0 0 0 auto;
     color: #777;
