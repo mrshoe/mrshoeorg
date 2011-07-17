@@ -34,6 +34,9 @@ article h2 {
 	width: 500px;
 	margin: 18px 8px;
 }
+article h2 a {
+	text-decoration: none;
+}
 article time {
 	position: absolute;
 	right: 20px;
@@ -57,7 +60,7 @@ article p img {
 	margin: 0 auto;
 	display: block;
 }
-article a {
+a {
 	color: #111;
 }
 article a:hover {

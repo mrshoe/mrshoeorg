@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>David Shoemaker | MrShoe.org</title>
+<title>{{ title }} | MrShoe.org</title>
 <meta charset="UTF8">
 <link href='http://fonts.googleapis.com/css?family=Cabin:regular,bold' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="/static/site.css">
@@ -10,7 +10,9 @@
 </head>
 <body>
 	<header>
+		<a href="/">
 		<div id="logo"></div>
+		</a>
 	</header>
 	<section id="allcontent">
 		%include
