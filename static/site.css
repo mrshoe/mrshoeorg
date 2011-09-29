@@ -37,6 +37,9 @@ article h2 {
 article h2 a {
 	text-decoration: none;
 }
+article h3 {
+	margin-top: 32px;
+}
 article time {
 	position: absolute;
 	right: 20px;
@@ -51,7 +54,6 @@ article time {
 
 article p {
 	padding: 12px 24px;
-	letter-spacing: 0.08em;
 	color: #222;
 	line-height: 1.4em;
 }
@@ -118,4 +120,9 @@ div#logo {
 	100% {
 		-webkit-transform: translateZ(0px) rotateY(0deg);
 	}
+}
+span.amp {
+	font-family: Baskerville, Palatino, "Book Antiqua", serif;
+	font-style: italic;
+	font-weight: normal;
 }

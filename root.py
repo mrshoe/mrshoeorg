@@ -1,4 +1,4 @@
-from bottle import debug, route, run, static_file, template, redirect, abort
+from bottle import debug, route, run, static_file, template, redirect, abort, response
 import datetime
 import psycopg2
 import os
@@ -36,7 +36,12 @@ class db_conn(object):
 
 @route('/')
 def home():
-	return redirect('/blog')
+	return template('view/home')
+
+@route('/N5779V')
+@route('/n5779v')
+def n5779v():
+	return template('view/n5779v')
 
 @route('/blog')
 @route('/blog/')
@@ -45,7 +50,7 @@ def blog():
 		articles = conn.execute_fetch('select title, body, published, slug from entries where published is not null order by published desc limit 5')
 		if not articles:
 			abort(404, 'Not found')
-		return template('view/blog', articles=articles, util=util, next=None, previous=None)
+		return template('view/blog', articles=articles, next=None, previous=None)
 
 def get_next_prv(conn, pubdate):
 	nextdate = conn.execute_fetch('select published, slug from entries where published > %s order by published limit 1', (pubdate,))
@@ -64,12 +69,13 @@ def article(year, month, day, slug):
 		if not articles:
 			abort(404, 'Not found')
 		nxt, prev = get_next_prv(conn, articles[0][2])
-		return template('view/blog', articles=articles, util=util, next=nxt, previous=prev)
+		return template('view/blog', articles=articles, next=nxt, previous=prev)
 
 @route('/blog/draft/:slug')
 def draft(slug):
 	try:
-		homedir = os.environ.get('HOME', '/tmp')
+#		homedir = os.environ.get('HOME', '/tmp')
+		homedir = '/home/mrshoe'
 		blogdir = os.path.join(homedir, '.blog')
 		f = open(os.path.join(blogdir, slug))
 		lines = f.readlines()
@@ -94,9 +100,22 @@ def draft(slug):
 					conn.execute('insert into entries values (default, %s, %s, now(), %s)', (title, body, slug))
 				else:
 					conn.execute('insert into entries values (default, %s, %s, NULL, %s)', (title, body, slug))
-			return template('view/blog', articles=[(title, body, datetime.datetime.now(), slug)], util=util, next=None, previous=None)
+			return template('view/blog', articles=[(title, body, datetime.datetime.now(), slug)], next=None, previous=None)
 	except IOError:
 		abort(404, 'No such entry')
+
+@route('/blog/index.xml')
+def atomfeed():
+	with db_conn() as conn:
+		articles = conn.execute_fetch('select title, body, published, slug from entries where published is not null order by published desc limit 20')
+		if not articles:
+			abort(404, 'Not found')
+		response.content_type = 'application/atom+xml'
+		return template('view/atom', articles=articles)
+
+@route('/blog/:year#[0-9]{4}#/:month#[0-9]{2}#/:filename')
+def oldblog(year, month, filename):
+	return template(os.path.join('static', 'oldblog', year, month, filename))
 
 @route('/static/:path#.+#')
 def static(path):

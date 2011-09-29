@@ -1,3 +1,4 @@
+%import util
 %for title, body, pubdate, slug in articles:
 %pubdate = util.timezonefix(pubdate)
 <article>

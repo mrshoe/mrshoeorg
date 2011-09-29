@@ -11,3 +11,9 @@ def datefmt(dt):
 
 def dateurl(dt):
 	return dt.strftime('%Y/%m/%d')
+
+def zulutime(dt):
+	return dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+def copyyear():
+	return datetime.datetime.now().year
