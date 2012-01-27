@@ -61,6 +61,7 @@ Coming soon...
 <p>
 <img src="/static/N5779V/overhead_diagram.png"/>
 </p>
+<!--
 <h3>Renting</h3>
 <p>
 <script>
@@ -76,5 +77,6 @@ The current rate is $140/hour wet tach, with a frequent flyer discounted rate of
 <strong>I flew <input onchange="update_cost(this)" value="0.0" style="width:3em;text-align:right" /> hours last month.</strong>
 Total cost: <strong>$<span id="monthlycost">0</span></strong>
 </p>
+-->
 </article>
 %rebase view/base title='N5779V'

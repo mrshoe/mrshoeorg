@@ -7,7 +7,6 @@
 	{{! body }}
 </article>
 %end
-%if len(articles) == 1:
 <table style="width:100%;margin-left:20px">
 <tr>
 %if previous is not None:
@@ -18,6 +17,5 @@
 %end
 </td>
 </table>
-%end
 %title = articles[0][0] if len(articles) == 1 else 'David Shoemaker'
 %rebase view/base title=title

@@ -43,14 +43,27 @@ def home():
 def n5779v():
 	return template('view/n5779v')
 
+ARTICLES_PER_PAGE = 5
 @route('/blog')
 @route('/blog/')
-def blog():
+@route('/blog/:page#[0-9]*#')
+def blog(page=0):
 	with db_conn() as conn:
-		articles = conn.execute_fetch('select title, body, published, slug from entries where published is not null order by published desc limit 5')
+		page = int(page)
+		articles = conn.execute_fetch('select title, body, published, slug from entries where published is not null order by published desc limit %s offset %s', (ARTICLES_PER_PAGE, page*ARTICLES_PER_PAGE))
 		if not articles:
 			abort(404, 'Not found')
-		return template('view/blog', articles=articles, next=None, previous=None)
+		article_count = conn.execute_fetch('select count(*) from entries')
+		if not article_count:
+			abort(404, 'Not found')
+		if page == 1:
+			nxt = '/blog/'
+		elif page > 1:
+			nxt = '/blog/%d' % (page-1)
+		else:
+			nxt = None
+		prev = '/blog/%d' % (page+1) if article_count[0][0] > ((page+1) * ARTICLES_PER_PAGE) else None
+		return template('view/blog', articles=articles, next=nxt, previous=prev)
 
 def get_next_prv(conn, pubdate):
 	nextdate = conn.execute_fetch('select published, slug from entries where published > %s order by published limit 1', (pubdate,))
@@ -120,6 +133,10 @@ def oldblog(year, month, filename):
 @route('/static/:path#.+#')
 def static(path):
 	return static_file(path, root='static')
+
+@route('/favicon.ico')
+def favicon():
+	return static_file('favicon.ico', root='static')
 
 debug(True)
 run(host='0.0.0.0', port=8088, reloader=True)
