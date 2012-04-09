@@ -1,38 +1,8 @@
 from bottle import debug, route, run, static_file, template, redirect, abort, response
 import datetime
-import psycopg2
 import os
-
+import db
 import util
-
-db_cons = set()
-def get_conn():
-	if not db_cons:
-		return psycopg2.connect(database='mrshoeblog')
-	else:
-		return db_cons.pop()
-
-def put_conn(conn):
-	db_cons.add(conn)
-
-class db_conn(object):
-	def execute(self, query, params=()):
-		self.cur.execute(query, params)
-	def execute_fetch(self, query, params=()):
-		self.cur.execute(query, params)
-		return self.cur.fetchall()
-
-	def __enter__(self):
-		self.conn = get_conn()
-		self.cur = self.conn.cursor()
-		return self
-	
-	def __exit__(self, type, value, traceback):
-		if type is None:
-			self.conn.commit()
-		self.cur.close()
-		self.conn.rollback()
-		put_conn(self.conn)
 
 @route('/')
 def home():
@@ -48,12 +18,12 @@ ARTICLES_PER_PAGE = 5
 @route('/blog/')
 @route('/blog/:page#[0-9]*#')
 def blog(page=0):
-	with db_conn() as conn:
+	with db.db_conn('mrshoeblog') as conn:
 		page = int(page)
 		articles = conn.execute_fetch('select title, body, published, slug from entries where published is not null order by published desc limit %s offset %s', (ARTICLES_PER_PAGE, page*ARTICLES_PER_PAGE))
 		if not articles:
 			abort(404, 'Not found')
-		article_count = conn.execute_fetch('select count(*) from entries')
+		article_count = conn.execute_fetchone('select count(*) from entries')
 		if not article_count:
 			abort(404, 'Not found')
 		if page == 1:
@@ -62,14 +32,14 @@ def blog(page=0):
 			nxt = '/blog/%d' % (page-1)
 		else:
 			nxt = None
-		prev = '/blog/%d' % (page+1) if article_count[0][0] > ((page+1) * ARTICLES_PER_PAGE) else None
+		prev = '/blog/%d' % (page+1) if article_count[0] > ((page+1) * ARTICLES_PER_PAGE) else None
 		return template('view/blog', articles=articles, next=nxt, previous=prev)
 
 def get_next_prv(conn, pubdate):
-	nextdate = conn.execute_fetch('select published, slug from entries where published > %s order by published limit 1', (pubdate,))
-	prevdate = conn.execute_fetch('select published, slug from entries where published < %s order by published desc limit 1', (pubdate,))
-	nxt = make_url(*nextdate[0]) if nextdate else None
-	prev = make_url(*prevdate[0]) if prevdate else None
+	nextdate = conn.execute_fetchone('select published, slug from entries where published > %s order by published limit 1', (pubdate,))
+	prevdate = conn.execute_fetchone('select published, slug from entries where published < %s order by published desc limit 1', (pubdate,))
+	nxt = make_url(*nextdate) if nextdate else None
+	prev = make_url(*prevdate) if prevdate else None
 	return nxt, prev
 
 def make_url(pubdate, slug):
@@ -77,7 +47,7 @@ def make_url(pubdate, slug):
 
 @route('/blog/:year#[0-9]{4}#/:month#[0-9]{2}#/:day#[0-9]{2}#/:slug')
 def article(year, month, day, slug):
-	with db_conn() as conn:
+	with db.db_conn('mrshoeblog') as conn:
 		articles = conn.execute_fetch('select title, body, published, slug from entries where published is not null and slug=%s', (slug,))
 		if not articles:
 			abort(404, 'Not found')
@@ -96,7 +66,7 @@ def draft(slug):
 		published = lines[-1].strip().lower() == 'published'
 		bodylines = lines[1:-1] if published else lines[1:]
 		body = ''.join(bodylines)
-		with db_conn() as conn:
+		with db.db_conn('mrshoeblog') as conn:
 			article = conn.execute_fetch('select published from entries where slug=%s', (slug.strip(),))
 			if len(article) > 1:
 				abort(500, 'Multiple entries with that slug')
@@ -119,7 +89,7 @@ def draft(slug):
 
 @route('/blog/index.xml')
 def atomfeed():
-	with db_conn() as conn:
+	with db.db_conn('mrshoeblog') as conn:
 		articles = conn.execute_fetch('select title, body, published, slug from entries where published is not null order by published desc limit 20')
 		if not articles:
 			abort(404, 'Not found')
