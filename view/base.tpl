@@ -10,6 +10,9 @@
 <link href='http://fonts.googleapis.com/css?family=Cabin:regular,bold' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="/static/site.css">
 <link rel="alternate" type="application/atom+xml" href="/blog/index.xml" />
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 <script src="/static/raphael-min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script type="text/javascript">
