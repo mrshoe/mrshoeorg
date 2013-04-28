@@ -134,6 +134,9 @@ span.amp {
 	font-style: italic;
 	font-weight: normal;
 }
+td {
+	padding: 6px 40px;
+}
 table.itemcost {
 	margin: 24px;
 }

@@ -4,16 +4,18 @@ import os
 import db
 import util
 
-@route('/')
-def home():
-	return template('view/home')
-
 @route('/N5779V')
 @route('/n5779v')
 def n5779v():
 	return template('view/n5779v')
 
+@route('/N4WR')
+@route('/n4wr')
+def n4wr():
+	return template('view/n4wr')
+
 ARTICLES_PER_PAGE = 5
+@route('/')
 @route('/blog')
 @route('/blog/')
 @route('/blog/:page#[0-9]*#')
