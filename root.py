@@ -7,16 +7,6 @@ import db
 import util
 import config
 
-@route('/N5779V')
-@route('/n5779v')
-def n5779v():
-	return template('view/n5779v')
-
-@route('/N4WR')
-@route('/n4wr')
-def n4wr():
-	return template('view/n4wr')
-
 @route('/')
 @route('/blog')
 @route('/blog/')

@@ -5,9 +5,6 @@
 <head>
 <title>{{ title }}</title>
 <meta charset="UTF8">
-<link rel="openid.server" href="http://www.myopenid.com/server" />
-<link rel="openid.delegate" href="http://mrshoe.myopenid.com/" />
-<meta http-equiv="X-XRDS-Location" content="http://mrshoe.myopenid.com/xrds" />
 <link href='http://fonts.googleapis.com/css?family=Cabin:regular,bold' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="/static/site.css">
 <link rel="alternate" type="application/atom+xml" href="/blog/index.xml" />
