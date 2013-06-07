@@ -1,8 +1,9 @@
 %import util
+%import config
 <!DOCTYPE html>
 <html>
 <head>
-<title>{{ title }} | MrShoe.org</title>
+<title>{{ title }}</title>
 <meta charset="UTF8">
 <link rel="openid.server" href="http://www.myopenid.com/server" />
 <link rel="openid.delegate" href="http://mrshoe.myopenid.com/" />
@@ -17,7 +18,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script type="text/javascript">
 var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-168882-1']);
+_gaq.push(['_setAccount', '{{ config.GOOGLE_ANALYTICS_ACCOUNT }}']);
 _gaq.push(['_trackPageview']);
 (function() {
 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -36,7 +37,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 		%include
 	</section>
 	<footer>
-		<section>&copy;{{ util.copyyear() }} David Shoemaker</section>
+		<section>&copy;{{ util.copyyear() }} {{ config.BLOGGER_NAME }}</section>
 	</footer>
 	<script>
 function drawLogo(paper, ring1attrs, ring2attrs, shoeattrs) {

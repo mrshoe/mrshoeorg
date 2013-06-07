@@ -1,0 +1,9 @@
+ARTICLES_PER_PAGE = 10
+DATABASE_NAME = 'maxblog'
+COMMENTS_ENABLED = True
+GOOGLE_ANALYTICS_ACCOUNT = 'UA-40646733-1'
+BLOGGER_NAME = 'Max Shoemaker'
+BLOG_TITLE = 'Max Shoemaker\'s Blog'
+HOME_URL = 'http://maxshoemaker.org/'
+BLOG_URL = 'http://maxshoemaker.org/blog/'
+ATOM_URL = 'http://maxshoemaker.org/blog/index.xml'

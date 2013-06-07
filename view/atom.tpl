@@ -1,27 +1,28 @@
 %import util
+%import config
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-<title>MrShoe.org Blog</title>
-<subtitle>By David Shoemaker</subtitle>
-<link rel="alternate" type="text/html" href="http://mrshoe.org/blog/" />
-<link rel="self" type="application/atom+xml" href="http://mrshoe.org/blog/index.xml" />
-<id>http://mrshoe.org/blog/</id>
+<title>{{ config.BLOG_TITLE }}</title>
+<subtitle>By {{ config.BLOGGER_NAME }}</subtitle>
+<link rel="alternate" type="text/html" href="{{ config.HOME_URL }}" />
+<link rel="self" type="application/atom+xml" href="{{ config.ATOM_URL }}" />
+<id>{{ config.BLOG_URL }}</id>
 
 <updated>{{ util.zulutime(articles[0][2]) }}</updated>
-<rights>Copyright © {{ util.copyyear() }}, David Shoemaker</rights>
+<rights>Copyright © {{ util.copyyear() }}, {{ config.BLOGGER_NAME }}</rights>
 
 %for title, body, pubdate, slug in articles:
 <entry>
 	<title>{{ title }}</title>
-	<link rel="alternate" type="text/html" href="http://mrshoe.org/blog/{{ util.dateurl(pubdate) }}/{{ slug }}" />
-	<id>tag:mrshoe.org,{{ pubdate.year }}:{{ slug }}</id>
+	<link rel="alternate" type="text/html" href="{{ config.BLOG_URL }}{{ util.dateurl(pubdate) }}/{{ slug }}" />
+	<id>tag:{{ config.HOME_URL }},{{ pubdate.year }}:{{ slug }}</id>
 	<published>{{ util.zulutime(pubdate) }}</published>
 	<updated>{{ util.zulutime(pubdate) }}</updated>
 	<author>
-		<name>David Shoemaker</name>
-		<uri>http://mrshoe.org/</uri>
+		<name>{{ config.BLOGGER_NAME }}</name>
+		<uri>{{ config.HOME_URL }}</uri>
 	</author>
-	<content type="html" xml:base="http://mrshoe.org/blog/" xml:lang="en">
+	<content type="html" xml:base="{{ config.BLOG_URL }}" xml:lang="en">
 	<![CDATA[
 		{{! body }}
 	]]>

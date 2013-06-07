@@ -20,9 +20,7 @@ class db_conn(object):
 		return self.cur.fetchall()
 	def execute_fetchone(self, query, params=()):
 		self.cur.execute(query, params)
-		result = self.cur.fetchall()
-		if result:
-			return result[0]
+		return self.cur.fetchone()
 
 	def __init__(self, dbname):
 		self.dbname = dbname
