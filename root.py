@@ -1,6 +1,7 @@
 from bottle import debug, route, run, static_file, template, redirect, abort, response, request
 import datetime
 import os
+import re
 import json
 import db
 import util
@@ -127,12 +128,21 @@ def oldblog(year, month, filename):
 	return template(os.path.join('static', 'oldblog', year, month, filename))
 
 @route('/blog/upload', 'PUT')
-def upload():
+@route('/blog/upload/:entryid#[0-9]+#', 'PUT')
+def upload(entryid=None):
 	title = request.json.get('title')
 	body = request.json.get('body')
-	slug = '-'.join(w.lower() for w in title.strip().split())
+	slug = re.sub('\s+', '-', title.strip().lower())
+	slug = re.sub('[^\w-]', '', slug)
 	with db.db_conn(config.DATABASE_NAME) as conn:
-		conn.execute('insert into entries values (default, %s, %s, now(), %s)', (title, body, slug))
+		response.content_type = 'text/json'
+		if entryid is None:
+			inserted = conn.execute_fetchone('insert into entries values (default, %s, %s, now(), %s) returning id', (title, body, slug))
+			return json.dumps({'id':inserted[0]})
+		else:
+			entryid = int(entryid)
+			conn.execute('update entries set title=%s, body=%s, slug=%s where id=%s', (title, body, slug, entryid))
+			return json.dumps({'id':entryid})
 
 @route('/static/:path#.+#')
 def static(path):
