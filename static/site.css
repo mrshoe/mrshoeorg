@@ -93,6 +93,11 @@ article p {
 	color: #222;
 	line-height: 1.4em;
 }
+article p.caption {
+	padding: 4px 100px 12px 100px;
+	color: #777;
+	text-align: center;
+}
 article p img {
 	width: 500px;
 	margin: 0 auto;
