@@ -7,3 +7,4 @@ BLOG_TITLE = 'MrShoe.org Blog'
 HOME_URL = 'http://mrshoe.org/'
 BLOG_URL = 'http://mrshoe.org/blog/'
 ATOM_URL = 'http://mrshoe.org/blog/index.xml'
+BLOG_PASSWORD = open('passwd').read().strip()

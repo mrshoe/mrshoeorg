@@ -130,6 +130,8 @@ def oldblog(year, month, filename):
 @route('/blog/upload', 'PUT')
 @route('/blog/upload/:entryid#[0-9]+#', 'PUT')
 def upload(entryid=None):
+	if request.get_header('X-Maximal') != config.BLOG_PASSWORD:
+		abort(403, 'Forbidden')
 	title = request.json.get('title')
 	body = request.json.get('body')
 	slug = re.sub('\s+', '-', title.strip().lower())
