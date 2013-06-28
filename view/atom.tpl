@@ -14,8 +14,9 @@
 %for title, body, pubdate, slug in articles:
 <entry>
 	<title>{{ title }}</title>
-	<link rel="alternate" type="text/html" href="{{ config.BLOG_URL }}{{ util.dateurl(pubdate) }}/{{ slug }}" />
-	<id>tag:{{ config.HOME_URL }},{{ pubdate.year }}:{{ slug }}</id>
+%localpubdate = util.timezonefix(pubdate)
+	<link rel="alternate" type="text/html" href="{{ config.BLOG_URL }}{{ util.dateurl(localpubdate) }}/{{ slug }}" />
+	<id>tag:{{ config.HOME_URL }},{{ localpubdate.year }}:{{ slug }}</id>
 	<published>{{ util.zulutime(pubdate) }}</published>
 	<updated>{{ util.zulutime(pubdate) }}</updated>
 	<author>
