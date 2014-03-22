@@ -34,7 +34,7 @@ $(function(){
 	<time>{{ util.datefmt(pubdate) }}</time>
 	{{! body }}
 %if config.COMMENTS_ENABLED:
-%if len(articles) == 1:
+%if single_post == True:
 <section id="comments">
 %for commenter, comment, tstamp in comments:
 <h3>{{ commenter }}</h3>
@@ -64,5 +64,5 @@ $(function(){
 %end
 </td>
 </table>
-%title = articles[0][0] if len(articles) == 1 else config.BLOGGER_NAME
+%title = articles[0][0] if single_post == True else config.BLOGGER_NAME
 %rebase view/base title=title

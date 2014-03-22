@@ -44,7 +44,7 @@ def blog(page=0):
 				comment_counts[k] = '1 comment'
 			else:
 				comment_counts[k] = '%d comments' % v
-		return template('view/blog', articles=articles, comments=[], comment_counts=comment_counts, next=nxt, previous=prev)
+		return template('view/blog', articles=articles, comments=[], comment_counts=comment_counts, single_post=False, next=nxt, previous=prev)
 
 def get_next_prv(conn, pubdate):
 	nextdate = conn.execute_fetchone('select published, slug from entries where published > %s order by published limit 1', (pubdate,))
@@ -73,7 +73,7 @@ def article(year, month, day, slug):
 		articles = get_article(conn, year, month, day, slug)
 		comments = conn.execute_fetch('select commenter, comment, tstamp from comments where entryid=%s order by tstamp', (articles[0][4],))
 		nxt, prev = get_next_prv(conn, articles[0][2])
-		return template('view/blog', articles=articles, comments=comments, comment_counts={}, next=nxt, previous=prev)
+		return template('view/blog', articles=articles, comments=comments, comment_counts={}, single_post=True, next=nxt, previous=prev)
 
 @route('/blog/draft/:slug')
 def draft(slug):
