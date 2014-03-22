@@ -155,4 +155,4 @@ def favicon():
 	return static_file('favicon.ico', root='static')
 
 debug(True)
-run(host='0.0.0.0', port=8088, reloader=True)
+run(host='0.0.0.0', port=config.PORT, reloader=True)
