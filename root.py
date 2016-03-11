@@ -111,7 +111,8 @@ def draft(slug):
 def comment(year, month, day, slug):
 	with db.db_conn(config.DATABASE_NAME) as conn:
 		articles = get_article(conn, year, month, day, slug)
-		conn.execute("insert into comments values (default, %s, %s, %s, now() at time zone 'US/Pacific')", (articles[0][4], request.forms['commenter'].strip(), request.forms['comment'].strip()))
+		if request.forms['jstest'] == 'valid':
+			conn.execute("insert into comments values (default, %s, %s, %s, now() at time zone 'US/Pacific')", (articles[0][4], request.forms['commenter'].strip(), request.forms['comment'].strip()))
 	redirect(request.path)
 
 @route('/blog/index.xml')
@@ -154,5 +155,5 @@ def static(path):
 def favicon():
 	return static_file('favicon.ico', root='static')
 
-debug(True)
-run(host='0.0.0.0', port=config.PORT, reloader=True)
+debug(False)
+run(host='0.0.0.0', port=config.PORT, reloader=False)

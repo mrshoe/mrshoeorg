@@ -37,7 +37,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 		%include
 	</section>
 	<footer>
-		<section>&copy;{{ util.copyyear() }} {{ config.BLOGGER_NAME }}</section>
+		<section>&copy; 2011-{{ util.copyyear() }} {{ config.BLOGGER_NAME }}</section>
 	</footer>
 	<script>
 function drawLogo(paper, ring1attrs, ring2attrs, shoeattrs) {

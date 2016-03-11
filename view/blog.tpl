@@ -24,6 +24,7 @@ function placeholder(p, elem) {
 $(function(){
 	placeholder('Name', $('#nameinput'));
 	placeholder('Comment', $('#commentinput'));
+	$('#jstest').val('valid');
 });
 %end
 </script>
@@ -42,6 +43,7 @@ $(function(){
 <p>{{ comment }}</p>
 %end
 <form method="POST">
+<input name="jstest" id="jstest" type="hidden" value="" />
 <input name="commenter" id="nameinput" />
 <textarea name="comment" id="commentinput">
 </textarea>
